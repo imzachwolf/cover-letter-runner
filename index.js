@@ -18,6 +18,8 @@
         }
         Runner.instance_ = this;
 
+        this.pictureContainerRef = document.getElementById('img-container');
+
         this.outerContainerEl = document.querySelector(outerContainerId);
         this.containerEl = null;
         this.snackbarEl = null;
@@ -557,6 +559,15 @@
 
                 if (!collision) {
                     this.distanceRan += this.currentSpeed * deltaTime / this.msPerFrame;
+                    // console.log(this.distanceRan);
+                    /// 100 pts = 4000 distance
+
+                    var totalPtsNeeded = 400;
+                    var distanceNeeded = totalPtsNeeded * 40;
+                    var picHeight = 1000;
+                    var curHeight = (this.distanceRan / distanceNeeded) * picHeight;
+
+                    this.pictureContainerRef.style.height = '' + curHeight + 'px';
 
                     if (this.currentSpeed < this.config.MAX_SPEED) {
                         this.currentSpeed += this.config.ACCELERATION;
