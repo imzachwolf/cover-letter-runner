@@ -592,6 +592,11 @@
                     this.pictureContainerRef.style.height = '' + curHeight + 'px';
                     this.coverRef.style.height = '' + covCurHeight + 'px';
 
+                    if(covCurHeight > covHeight){
+                        this.pictureContainerRef.style.height = '100%';
+                        this.coverRef.style.height = '100%';
+                    }
+
                     if (this.currentSpeed < this.config.MAX_SPEED) {
                         this.currentSpeed += this.config.ACCELERATION;
                     }

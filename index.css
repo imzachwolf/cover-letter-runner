@@ -137,7 +137,7 @@ html, body {
 
 
 #img-container {
-  height: 1000px;
+  height: 0px;
   /*width: 100%;*/
   overflow: hidden;
   /*float: left;*/
@@ -145,7 +145,7 @@ html, body {
 }
 
 #cov-letter-container {
-  height: 1000px;
+  height: 0px;
   /*width: 100%;*/
   overflow: hidden;
   /*float: right;*/
@@ -197,6 +197,7 @@ html, body {
   width: 100%;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 *{
