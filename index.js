@@ -4,6 +4,11 @@
 // extract from chromium source code by @liuwayong
 (function () {
     'use strict';
+    window.addEventListener('keydown', function(e) {
+        if(e.keyCode == 32 && e.target == document.body) {
+            e.preventDefault();
+        }
+    });
     /**
      * T-Rex runner.
      * @param {string} outerContainerId Outer containing element id.
@@ -19,6 +24,8 @@
         Runner.instance_ = this;
 
         this.pictureContainerRef = document.getElementById('img-container');
+        this.glassesPicRef = document.getElementById('zsg');
+        this.coverRef = document.getElementById('cov-letter-container');
 
         this.outerContainerEl = document.querySelector(outerContainerId);
         this.containerEl = null;
@@ -231,6 +238,7 @@
 
 
     Runner.prototype = {
+
         /**
          * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
          * @return {boolean}
@@ -562,12 +570,27 @@
                     // console.log(this.distanceRan);
                     /// 100 pts = 4000 distance
 
-                    var totalPtsNeeded = 400;
+                    var totalPtsNeeded = 500;
                     var distanceNeeded = totalPtsNeeded * 40;
+                    var suitImgDistanceNeeded = distanceNeeded * 0.6;
                     var picHeight = 1000;
-                    var curHeight = (this.distanceRan / distanceNeeded) * picHeight;
+                    var covHeight = 1200;
+
+                    var curHeight = (this.distanceRan / suitImgDistanceNeeded) * picHeight;
+
+                    var picMaxed = curHeight > picHeight;
+                    curHeight = picMaxed ? picHeight : curHeight;
+                    if (picMaxed) {
+                        var postDistToCover = (distanceNeeded - suitImgDistanceNeeded);
+                        var newDistCovered = (this.distanceRan - suitImgDistanceNeeded);
+                        var r = newDistCovered / postDistToCover;
+                        this.glassesPicRef.style.opacity = '' + r;
+                    }
+
+                    var covCurHeight = (this.distanceRan / distanceNeeded) * covHeight;
 
                     this.pictureContainerRef.style.height = '' + curHeight + 'px';
+                    this.coverRef.style.height = '' + covCurHeight + 'px';
 
                     if (this.currentSpeed < this.config.MAX_SPEED) {
                         this.currentSpeed += this.config.ACCELERATION;
@@ -827,6 +850,7 @@
         },
 
         restart: function () {
+            this.glassesPicRef.style.opacity = 0;
             if (!this.raqId) {
                 this.playCount++;
                 this.runningTime = 0;
